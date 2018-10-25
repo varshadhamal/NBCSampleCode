@@ -6,6 +6,7 @@ pipeline {
             steps {
                 echo 'Building.. ...'
                 bat 'mvn clean install'
+                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
             }
         }
         stage('Test') {
