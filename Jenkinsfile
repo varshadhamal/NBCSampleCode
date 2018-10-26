@@ -1,22 +1,7 @@
-pipeline {
-    agent any
-
-    stages {
-        stage('Build') {
-            steps {
-                echo 'Building.. ...'
-                bat 'mvn clean install'
-            }
-        }
-        stage('Test') {
-            steps {
-                echo 'Testing..'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
-            }
-        }
-    }
+node{
+	env.BUILD_DIR = "${pwd()}/buildDir_${env.BUILD_NUMBER}"
+	dir(env.BUILD_DIR){
+		checkout scm
+	}
 }
+Pipeline.proceed() 
