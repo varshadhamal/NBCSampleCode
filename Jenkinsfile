@@ -4,5 +4,4 @@ dir(env.BUILD_DIR){
 	checkout scm
 }
 }	
-def Pipeline1 = load 'Pipeline.groovy'
 Pipeline1.proceed() 
