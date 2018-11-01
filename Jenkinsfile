@@ -4,4 +4,4 @@ dir(env.BUILD_DIR){
 	checkout scm
 }
 }	
-Pipeline1.proceed() 
+Pipeline.proceed() 
