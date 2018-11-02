@@ -1,6 +1,5 @@
 pipeline {
     agent any
-   @Library('pipeline-build-library')_
     stages {
         stage('Build') {
             steps {
