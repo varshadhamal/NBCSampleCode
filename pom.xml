@@ -15,7 +15,4 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  <configuration>
-        <mainClass>App</mainClass>
-    </configuration>
-</project>
+ </project>
