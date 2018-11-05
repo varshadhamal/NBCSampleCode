@@ -21,7 +21,7 @@ pipeline {
         }
        stage('Deploy') {
             steps {
-                sh "aws ecs create-cluster --cluster-name MyCluster"
+                sh "aws ecs create-cluster --cluster-name MyCluster --region us-west-2"
             }
         }
     }
