@@ -4,13 +4,13 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building.. ...'
-                bat 'mvn clean install'
+                sh 'mvn clean install'
                 archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
             }
         }
         stage('Test') {
             steps {
-                bat 'mvn test'
+                sh 'mvn test'
             }
             post {
                 always {
@@ -21,7 +21,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                echo 'Deploying....'
+                sh 'aws ecs create-cluster --cluster-name MyCluster'
             }
         }
     }
