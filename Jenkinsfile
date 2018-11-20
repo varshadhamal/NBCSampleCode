@@ -29,7 +29,8 @@ pipeline {
                    sh "aws ecs list-container-instances --cluster default --region us-west-2"
                    sh "aws ecs describe-container-instances --cluster default --container-instances 8d1208ca-53ab-4e76-8ceb-e4a1c637b179 --region us-west-2"
                    sh "aws ecs register-task-definition --cli-input-json file://sample.json --region us-west-2"
-                   sh "aws ecs list-task-definitions --region us-west-2"        
+                   sh "aws ecs list-task-definitions --region us-west-2"
+                   sh "aws ecs list-tasks --cluster default --region us-west-2" 
           }
         }
     }
