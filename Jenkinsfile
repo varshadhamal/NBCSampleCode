@@ -24,10 +24,10 @@ pipeline {
                 
             }
         }
-       stage('Deploy') {
-            steps {
-                   sh "eval \$(aws ecs list-container-instances --cluster default --region us-west-2)"
-                  }
-        }
+      // stage('Deploy') {
+        //    steps {
+          //         sh "eval \$(aws ecs list-container-instances --cluster default --region us-west-2)"
+           //       }
+        //}
     }
 }
