@@ -27,7 +27,7 @@ pipeline {
       stage('Deploy') {
           steps {
                    sh "aws ecs list-container-instances --cluster default --region us-west-2"
-                   sh "aws ecs describe-container-instances --cluster default --container-instances 8d1208ca-53ab-4e76-8ceb-e4a1c637b179"
+                   sh "aws ecs describe-container-instances --cluster default --container-instances 8d1208ca-53ab-4e76-8ceb-e4a1c637b179 --region us-west-2"
                   }
         }
     }
