@@ -32,7 +32,7 @@ pipeline {
                    sh "aws ecs list-task-definitions --region us-west-2"
                    sh "aws ecs run-task --cluster default --task-definition sleep360:1 --count 1 --region us-west-2"
                    sh "aws ecs list-tasks --cluster default --region us-west-2" 
-                   sh "aws ecs describe-tasks --cluster default --4831f0e4-c76b-45aa-8a96-952c4341d749 --region us-west-2" 
+                   sh "aws ecs describe-tasks --cluster default --task 4831f0e4-c76b-45aa-8a96-952c4341d749 --region us-west-2" 
           }
         }
     }
