@@ -15,13 +15,19 @@ pipeline {
         }
        stage('Build') {
             steps {
+                
                 echo "Building.. "
                 sh "mvn clean install -DskipTests"
                 archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
                 sh "docker build -t 892943703739.dkr.ecr.us-west-2.amazonaws.com/varshaapachetomcat:latest ."
                 sh "eval \$(aws ecr get-login --no-include-email  --region us-west-2)"
-                sh "docker push 892943703739.dkr.ecr.us-west-2.amazonaws.com/varshaapachetomcat:latest"
-                
+                //sh "docker push 892943703739.dkr.ecr.us-west-2.amazonaws.com/varshaapachetomcat:latest"
+                configFileProvider([configFile(fileId: nbcsampleconfig, variable: 'DOCKERIMAGE')]) { 
+                    def value = readJSON file: env.DOCKERIMAGE
+                    def dockerImage = value.dockerImage
+                    def dockerImageTag = value.dockerImageTag
+                    sh "docker push ${dockerImage}:${dockerImageTag}"
+                }
             }
         }
       stage('Deploy') {
