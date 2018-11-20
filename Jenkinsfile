@@ -26,7 +26,7 @@ pipeline {
         }
        stage('Deploy') {
             steps {
-                    dos2unix sh "eval \$(aws ecs list-container-instances --cluster default --region us-west-2)"
+                   sh "eval \$(aws ecs list-container-instances --cluster default --region us-west-2)"
                   }
         }
     }
