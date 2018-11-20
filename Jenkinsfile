@@ -22,7 +22,8 @@ pipeline {
                 sh "docker build -t 892943703739.dkr.ecr.us-west-2.amazonaws.com/varshaapachetomcat:latest ."
                 sh "eval \$(aws ecr get-login --no-include-email  --region us-west-2)"
                 //sh "docker push 892943703739.dkr.ecr.us-west-2.amazonaws.com/varshaapachetomcat:latest"
-                configFileProvider([configFile(fileId: nbcsampleconfig, variable: 'DOCKERIMAGE')]) { 
+                def DockerImageconfigFileId = 'nbcsampleconfig'    
+                configFileProvider([configFile(fileId: DockerImageconfigFileId, variable: 'DOCKERIMAGE')]) { 
                     def value = readJSON file: env.DOCKERIMAGE
                     def dockerImage = value.dockerImage
                     def dockerImageTag = value.dockerImageTag
