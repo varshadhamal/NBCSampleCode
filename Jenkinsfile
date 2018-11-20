@@ -25,12 +25,12 @@ pipeline {
                 
             }
         }
-       stage('Deploy') {
-            steps {
+      // stage('Deploy') {
+      //      steps {
               
                //sh "docker run 892943703739.dkr.ecr.us-west-2.amazonaws.com/varshaapachetomcat"
                              
-            }
-        }
+        //    }
+        //}
     }
 }
