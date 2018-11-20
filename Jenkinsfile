@@ -15,7 +15,7 @@ pipeline {
         }
        stage('Build') {
             steps {
-                
+                script {
                 echo "Building.. "
                 sh "mvn clean install -DskipTests"
                 archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
@@ -28,6 +28,7 @@ pipeline {
                     def dockerImageTag = value.dockerImageTag
                     sh "docker push ${dockerImage}:${dockerImageTag}"
                 }
+               }
             }
         }
       stage('Deploy') {
