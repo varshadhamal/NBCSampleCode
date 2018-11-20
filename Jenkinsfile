@@ -1,3 +1,4 @@
+ #!/usr/bin/env 
 pipeline {
     agent any
     tools {
@@ -26,7 +27,7 @@ pipeline {
         }
        stage('Deploy') {
             steps {
-                    sh "eval \$(aws ecs list-container-instances --cluster default --region us-west-2)"
+                    dos2unix sh "eval \$(aws ecs list-container-instances --cluster default --region us-west-2)"
                   }
         }
     }
