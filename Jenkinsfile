@@ -37,6 +37,12 @@ pipeline {
             }
         }
       stage('Deploy') {
+          when {
+                expression {
+                    GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+                    return GIT_BRANCH == 'origin/master' || GIT_BRANCH == 'origin/develop'
+                }
+            }
                steps {
                    def branch  = ${env.BRANCH_NAME}        
                    sh "aws ecs list-container-instances --cluster default --region us-west-2"
@@ -47,11 +53,7 @@ pipeline {
                    sh "aws ecs list-tasks --cluster default --region us-west-2" 
                    sh "aws ecs describe-tasks --cluster default --task 4831f0e4-c76b-45aa-8a96-952c4341d749 --region us-west-2" 
                    //sh "aws ecs create-service --cluster default --service-name nbcsampleservice --task-definition sleep360:5 --desired-count 10 --region us-west-2"
-                   if ( branch == master)
-                        {
-                            sh "aws ecs update-service --cluster default --service nbcsampleservice --task-definition sleep360:5 --desired-count 10 --region us-west-2"
-                        }
-               
+                
                   
               
           }
