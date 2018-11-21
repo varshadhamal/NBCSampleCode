@@ -37,7 +37,14 @@ pipeline {
             }
         }
       stage('Deploy') {
+             when {
+                expression {
+                    GIT_BRANCH = ${env.BRANCH_NAME}
+                    return GIT_BRANCH == 'master' 
+                }
+            }      
           steps {
+              
                    sh "aws ecs list-container-instances --cluster default --region us-west-2"
                    sh "aws ecs describe-container-instances --cluster default --container-instances 8d1208ca-53ab-4e76-8ceb-e4a1c637b179 --region us-west-2"
                    sh "aws ecs register-task-definition --cli-input-json file://sample.json --region us-west-2"
@@ -46,8 +53,16 @@ pipeline {
                    sh "aws ecs list-tasks --cluster default --region us-west-2" 
                    sh "aws ecs describe-tasks --cluster default --task 4831f0e4-c76b-45aa-8a96-952c4341d749 --region us-west-2" 
                    //sh "aws ecs create-service --cluster default --service-name nbcsampleservice --task-definition sleep360:5 --desired-count 10 --region us-west-2"
-                   sh "aws ecs update-service --cluster default --service nbcsampleservice --task-definition sleep360:5 --desired-count 10 --region us-west-2"
-                     
+                   if (${env.BRANCH_NAME} == master)
+                        {
+                            sh "aws ecs update-service --cluster default --service nbcsampleservice --task-definition sleep360:5 --desired-count 10 --region us-west-2"
+                        }
+               
+                   if (${env.BRANCH_NAME} == develop)
+                        {
+                            sh "aws ecs update-service --cluster default --service nbcsampleservice --task-definition sleep360:5 --desired-count 10 --region us-west-2"
+                        }
+              
           }
         }
     }
