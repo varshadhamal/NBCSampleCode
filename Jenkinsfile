@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
     tools {
@@ -17,6 +18,7 @@ pipeline {
             steps {
                 script {
                 echo "Building.. "
+                echo "branch: ${env.BRANCH_NAME}"
                 sh "mvn clean install -DskipTests"
                 archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
                 sh "docker build -t 892943703739.dkr.ecr.us-west-2.amazonaws.com/varshaapachetomcat:latest ."
