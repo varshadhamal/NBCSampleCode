@@ -47,6 +47,7 @@ pipeline {
             steps
                 {
                     sh "aws ecs register-task-definition --cli-input-json file://sample.json --region us-west-2"
+                    sh "aws ecs create-service --cluster devenv --service-name nbcsampleservice --task-definition sleep360:5 --desired-count 10 --region us-west-2"
                     sh "aws ecs update-service --cluster devenv --service nbcsampleservice --task-definition sleep360:5 --desired-count 10 --region us-west-2"
                 }
         
