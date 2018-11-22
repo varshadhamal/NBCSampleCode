@@ -35,7 +35,24 @@ pipeline {
             }
         }
         
-       stage ('deploy dev')
+       stage ('deploy development')
+        {
+            when {
+            expression {
+               // GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+                GIT_BRANCH = env.BRANCH_NAME
+                return (GIT_BRANCH == 'develop')
+                       }
+                 }
+            steps
+                {
+                    sh "aws ecs register-task-definition --cli-input-json file://sample.json --region us-west-2"
+                    sh "aws ecs update-service --cluster devenv --service nbcsampleservice --task-definition sleep360:5 --desired-count 10 --region us-west-2"
+                }
+        
+        }
+        
+       stage ('deploy master')
         {
             when {
             expression {
@@ -46,7 +63,8 @@ pipeline {
                  }
             steps
                 {
-                    echo "${GIT_BRANCH}"
+                    sh "aws ecs register-task-definition --cli-input-json file://sample.json --region us-west-2"
+                    sh "aws ecs update-service --cluster default --service nbcsampleservice --task-definition sleep360:5 --desired-count 10 --region us-west-2"
                 }
         
         }
@@ -64,7 +82,7 @@ pipeline {
                    //   script {
                      //             if (env.BRANCH_NAME == 'master') {
                        //                sh "aws ecs run-task --cluster default --task-definition sleep360:1 --count 1 --region us-west-2"   
-                         //              sh "aws ecs update-service --cluster default --service nbcsamplewarservice --task-definition sleep360:5 --desired-count 10 --region us-west-2"
+                         //              sh "aws ecs update-service --cluster default --service nbcsampleservice --task-definition sleep360:5 --desired-count 10 --region us-west-2"
                           //         } else {
                           //             sh "aws ecs run-task --cluster devenv --task-definition sleep360:1 --count 1 --region us-west-2"
                           //             sh "aws ecs update-service --cluster devenv --service nbcsampleservice --task-definition sleep360:5 --desired-count 10 --region us-west-2"
