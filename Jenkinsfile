@@ -17,8 +17,7 @@ pipeline {
        stage('Build') {          
             steps {
                 script {
-                echo "Building.. "
-                echo "branch: ${env.BRANCH_NAME}"
+                   
                 sh "mvn clean install -DskipTests"
                 archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
                // sh "docker build -t 892943703739.dkr.ecr.us-west-2.amazonaws.com/varshaapachetomcat:latest ."
@@ -52,12 +51,21 @@ pipeline {
                 return (GIT_BRANCH == 'develop')
                        }
                  }
-            steps
+              steps
                 {
-                    sh "aws ecs register-task-definition --cli-input-json file://sample.json --region us-west-2"
-                    sh "aws ecs update-service --cluster devenv --service nbcsampleservice --task-definition sleep360:5 --desired-count 10 --region us-west-2"
-                }
-        
+                    script {
+	                def DockerImageconfigFileId = 'nbcsampleconfig' 
+	                configFileProvider([configFile(fileId: DockerImageconfigFileId, variable: 'DOCKERIMAGE')]) { 
+                    def value = readJSON file: env.DOCKERIMAGE
+					def region = value.region
+					def service = value.service
+                    def devenv = value.devenv    
+                    sh "aws ecs register-task-definition --cli-input-json file://sample.json --region ${region}"
+                    sh "aws ecs update-service --cluster ${devenv} --service ${service} --task-definition sleep360:5 --desired-count 10 --region ${region}"
+                    }
+                    }
+                }   
+            
         }
         
        stage ('deploy master')
@@ -71,9 +79,18 @@ pipeline {
                  }
             steps
                 {
-                    sh "aws ecs register-task-definition --cli-input-json file://sample.json --region us-west-2"
-                    sh "aws ecs update-service --cluster default --service nbcsampleservice --task-definition sleep360:5 --desired-count 10 --region us-west-2"
-                }
+                    script {
+	                def DockerImageconfigFileId = 'nbcsampleconfig' 
+	                configFileProvider([configFile(fileId: DockerImageconfigFileId, variable: 'DOCKERIMAGE')]) { 
+                    def value = readJSON file: env.DOCKERIMAGE
+					def region = value.region
+					def service = value.service
+                    def prodenv = value.prodenv    
+                    sh "aws ecs register-task-definition --cli-input-json file://sample.json --region ${region}"
+                    sh "aws ecs update-service --cluster ${prodenv} --service ${service} --task-definition sleep360:5 --desired-count 10 --region ${region}"
+                    }
+                    }
+                }    
         
         }
       //stage('Deploy') {
