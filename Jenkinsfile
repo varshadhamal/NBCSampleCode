@@ -3,7 +3,7 @@ pipeline {
     agent any
     tools {
            maven 'mvn'
-          } 
+          }
     
     stages {
       stage ('Initialize') {
@@ -14,27 +14,15 @@ pipeline {
                      '''
                   }
         }
-       stage('Build') {          
+       stage('Build all branches') {          
             steps {
                 script {
-                   
-                sh "mvn clean install -DskipTests"
-                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+                         sh "mvn clean install -DskipTests"
+               		 archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
                // sh "docker build -t 892943703739.dkr.ecr.us-west-2.amazonaws.com/varshaapachetomcat:latest ."
                 //sh "docker push 892943703739.dkr.ecr.us-west-2.amazonaws.com/varshaapachetomcat:latest"
-                def DockerImageconfigFileId = 'nbcsampleconfig'    
-                configFileProvider([configFile(fileId: DockerImageconfigFileId, variable: 'DOCKERIMAGE')]) { 
-                    def value = readJSON file: env.DOCKERIMAGE
-                    def dockerImage = value.dockerImage
-                    def dockerImageTag = value.dockerImageTag
-                    sh "docker build -t ${dockerImage}:${dockerImageTag} ."
-                    sh "docker push ${dockerImage}:${dockerImageTag}"
-                    
-                    sh "eval \$(aws ecr get-login --no-include-email  --region us-west-2)"
-                }
-                    
-               }
-            }
+	              }
+                 }
         }
        stage ('test')
         {
@@ -42,6 +30,31 @@ pipeline {
             sh "mvn test"
             }
         }
+       stage ('push docker image')
+	    {
+             when {
+              expression {
+               // GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+                GIT_BRANCH = env.BRANCH_NAME
+                return (GIT_BRANCH == 'develop' || GIT_BRANCH == 'master')
+                       }
+                 }
+	     steps
+		    { 
+			script {
+			    sh "eval \$(aws ecr get-login --no-include-email  --region us-west-2)"
+                		def DockerImageconfigFileId = 'nbcsampleconfig'    
+                		configFileProvider([configFile(fileId: DockerImageconfigFileId, variable: 'DOCKERIMAGE')]) { 
+                    			def value = readJSON file: env.DOCKERIMAGE
+                    			def dockerImage = value.dockerImage
+                    			def dockerImageTag = value.dockerImageTag
+                    		sh "docker build -t ${dockerImage}:${dockerImageTag} ."
+                    		sh "docker push ${dockerImage}:${dockerImageTag}"
+				}
+               
+		    }
+	    }
+	    }   
        stage ('deploy development')
         {
             when {
@@ -61,10 +74,9 @@ pipeline {
 					def service = value.service
                     def devenv = value.devenv    
                     //sh "aws ecs register-task-definition --cli-input-json file://sample.json --region ${region}"
-                    //sh "aws ecs create-service --cluster ${devenv} --service-name ${service} --task-definition sleep360:5 --desired-count 10 --region ${region}"
-                   // sh "aws ecs run-task --cluster ${devenv} --task-definition sleep360:1 --count 1 --region ${region}" 
-		    sh "aws ecs update-service --cluster ${devenv} --service ${service} --task-definition sleep360:1 --desired-count 1 --region ${region}"
-			}
+		    //sh "aws ecs run-task --cluster ${devenv} --task-definition sleep360:1 --count 1 --region ${region}"		
+                    sh "aws ecs update-service --cluster ${devenv} --service ${service} --task-definition sleep360:1 --desired-count 1 --region ${region}"
+                    }
                     }
                 }   
             
@@ -88,8 +100,8 @@ pipeline {
 					def region = value.region
 					def service = value.service
                     def prodenv = value.prodenv    
-                    //sh "aws ecs register-task-definition --cli-input-json file://sample.json --region ${region}"
-		    //sh "aws ecs run-task --cluster ${prodenv} --task-definition sleep360:1 --count 1 --region ${region}"
+                   // sh "aws ecs register-task-definition --cli-input-json file://sample.json --region ${region}"
+		    //sh "aws ecs run-task --cluster ${prodenv} --task-definition sleep360:1 --count 1 --region ${region}"		
                     sh "aws ecs update-service --cluster ${prodenv} --service ${service} --task-definition sleep360:1 --desired-count 1 --region ${region}"
                     }
                     }
