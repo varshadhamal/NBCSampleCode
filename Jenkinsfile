@@ -14,21 +14,15 @@ pipeline {
                      '''
                   }
         }
-       stage('Build') {          
+       stage('Build all branches') {          
             steps {
                 script {
-                   
-                sh "mvn clean install -DskipTests"
-                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+                         sh "mvn clean install -DskipTests"
+               		 archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
                // sh "docker build -t 892943703739.dkr.ecr.us-west-2.amazonaws.com/varshaapachetomcat:latest ."
                 //sh "docker push 892943703739.dkr.ecr.us-west-2.amazonaws.com/varshaapachetomcat:latest"
-	        
-                    
-                  
-                }
-                    
-                }
-            }
+	              }
+                 }
         }
        stage ('test')
         {
