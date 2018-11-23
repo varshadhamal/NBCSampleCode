@@ -62,6 +62,7 @@ pipeline {
 					def service = value.service
                     def devenv = value.devenv    
                     //sh "aws ecs register-task-definition --cli-input-json file://sample.json --region ${region}"
+		    sh "aws ecs run-task --cluster ${devenv} --task-definition sleep360:1 --count 1 --region ${region}"		
                     sh "aws ecs update-service --cluster ${devenv} --service ${service} --task-definition sleep360:1 --desired-count 1 --region ${region}"
                     }
                     }
@@ -88,6 +89,7 @@ pipeline {
 					def service = value.service
                     def prodenv = value.prodenv    
                    // sh "aws ecs register-task-definition --cli-input-json file://sample.json --region ${region}"
+		    sh "aws ecs run-task --cluster ${prodenv} --task-definition sleep360:1 --count 1 --region ${region}"		
                     sh "aws ecs update-service --cluster ${prodenv} --service ${service} --task-definition sleep360:1 --desired-count 1 --region ${region}"
                     }
                     }
