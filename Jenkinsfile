@@ -75,7 +75,8 @@ pipeline {
                     def devenv = value.devenv    
                     //sh "aws ecs register-task-definition --cli-input-json file://sample.json --region ${region}"
 		    //sh "aws ecs run-task --cluster ${devenv} --task-definition sleep360:1 --count 1 --region ${region}"		
-                    sh "aws ecs update-service --cluster ${devenv} --service ${service} --task-definition sleep360:1 --desired-count 1 --region ${region}"
+                     sh "aws ecs create-service --cluster ${devenv} --service-name nbcsampleservice --task-definition NBCsampletask:1 --desired-count 1 --region us-west-2"
+		    //sh "aws ecs update-service --cluster ${devenv} --service ${service} --task-definition sleep360:1 --desired-count 1 --region ${region}"
                     }
                     }
                 }   
