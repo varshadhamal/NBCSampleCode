@@ -102,8 +102,8 @@ pipeline {
                     def prodenv = value.prodenv    
                     sh "aws ecs register-task-definition --cli-input-json file://sample.json --region ${region}"
 		    sh "aws ecs run-task --cluster ${prodenv} --task-definition hello-world:1 --count 1 --region ${region}"		
-                    sh "aws ecs create-service --cluster default --service-name nbcsampleservice --task-definition hello-world:1 --desired-count 1 --region us-west-2"
-		    //sh "aws ecs update-service --cluster ${prodenv} --service ${service} --task-definition NBCsampletask:2 --desired-count 1 --region ${region}"
+                    //sh "aws ecs create-service --cluster default --service-name nbcsampleservice --task-definition hello-world:1 --desired-count 1 --region us-west-2"
+		    sh "aws ecs update-service --cluster ${prodenv} --service ${service} --task-definition hello-world:1 --desired-count 1 --region ${region}"
                     }
                     }
                 }    
