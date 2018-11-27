@@ -75,7 +75,7 @@ pipeline {
     					groupId: 'com.jcg.maven',
     					version: pom.version,
 					repository: 'Samplerepo',
-   					credentialsId: 'admin',
+   					credentialsId: 'b19ea1d1-f9b5-48df-99df-0a04ceac429b',
     					artifacts: [
         					[artifactId: pom.artifactId,
          					 classifier: '',
