@@ -73,13 +73,13 @@ pipeline {
 	    				protocol: 'http',
     					nexusUrl: 'http://34.208.184.67:8081/nexus',
     					groupId: 'com.jcg.maven',
-    					version: '1.0',
+    					version: pom.version,
 					repository: 'Samplerepo',
    					credentialsId: 'admin',
     					artifacts: [
         					[artifactId: pom.artifactId,
          					 classifier: '',
-        					 file: 'target/MavenHelloWorldProject-' + pom.version + '.jar',
+        					 file: 'MavenHelloWorldProject-' + pom.version + '.jar',
        						 type: 'jar']
     						   ])
 		           }
