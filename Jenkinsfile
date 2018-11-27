@@ -68,8 +68,9 @@ pipeline {
 		    	 script {
              		 	  def pom = readMavenPom file: 'pom.xml'
                 		  echo pom.version
-				 sh "cd target"
- 		                  nexusArtifactUploader(
+			          dir(env.BUILD_DIR/target)
+				 {
+				  nexusArtifactUploader(
     					nexusVersion: 'nexus3',
 	    				protocol: 'http',
     					nexusUrl: 'http://34.208.184.67:8081/nexus',
@@ -83,7 +84,8 @@ pipeline {
         					 file: pom.name + '-' + pom.version + '.jar',
        						 type: 'jar']
     						   ])
-		           }
+				 }
+			   }
 	    		}
 	    }
        stage ('deploy development')
