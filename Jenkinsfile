@@ -68,19 +68,20 @@ pipeline {
 		    	 script {
              		 	  def pom = readMavenPom file: 'pom.xml'
                 		  echo pom.version
- 		                  nexusArtifactUploader(
-                  		      nexusVersion: 'nexus3',
-                        	      protocol: 'http',
-                        	      nexusUrl: 'http://54.202.138.206:8081/nexus',
-                        	      groupId: 'com.jcg.maven',
-                        	      version: "${pom.version}",
-                        	     repository: 'releases',
-                        	     credentialsId: 'admin',
-                        	artifacts: [
-                            	[artifactId: 'com.jcg.maven',
-                            	file: 'com.example-' + pom.version + '.jar',
-                            	type: 'jar']
-                        	])
+ 		                 nexusArtifactUploader {
+       				 nexusVersion('nexus2')
+        			 protocol('http')
+        			 nexusUrl('http://34.208.184.67:8081/nexus')
+        			 groupId('com.jcg.maven')
+        			 version('2.4')
+        			 repository('Samplerepo')
+        			 credentialsId('admin')
+       			 		artifact {
+           					artifactId('MavenHelloWorldProject')
+            					type('jar')
+            			 		classifier('debug')
+            					file('MavenHelloWorldProject-1.0-SNAPSHOT.jar')
+        					}
                                }
 		        }
 	    }
