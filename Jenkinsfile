@@ -77,7 +77,7 @@ pipeline {
 					repository: 'Samplerepo',
    					credentialsId: 'admin',
     					artifacts: [
-        					[artifactId: MavenHelloWorldProject,
+        					[artifactId: pom.artifactId,
          					 classifier: '',
         					 file: 'my-service-' + version + '.jar',
        						 type: 'jar']
