@@ -79,7 +79,7 @@ pipeline {
     					artifacts: [
         					[artifactId: pom.artifactId,
          					 classifier: '',
-        					 file: 'my-service-' + version + '.jar',
+        					 file: 'my-service-' + pom.version + '.jar',
        						 type: 'jar']
     						   ])
 		           }
