@@ -71,13 +71,13 @@ pipeline {
  		                  nexusArtifactUploader(
     					nexusVersion: 'nexus3',
 	    				protocol: 'http',
-    					nexusUrl: 'my.nexus.address',
-    					groupId: 'com.example',
-    					version: version,
-					repository: 'RepositoryName',
-   					credentialsId: 'CredentialsId',
+    					nexusUrl: 'http://34.208.184.67:8081/nexus',
+    					groupId: 'com.jcg.mavene',
+    					version: '1.0',
+					repository: 'Samplerepo',
+   					credentialsId: 'admin',
     					artifacts: [
-        					[artifactId: projectName,
+        					[artifactId: MavenHelloWorldProject,
          					 classifier: '',
         					 file: 'my-service-' + version + '.jar',
        						 type: 'jar']
