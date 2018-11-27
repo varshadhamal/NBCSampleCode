@@ -54,7 +54,37 @@ pipeline {
                
 		    }
 	    }
-	    }   
+	    }
+       stage ('Publish artifact')
+	    {
+		    when {
+             		 expression {
+               				// GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+                			GIT_BRANCH = env.BRANCH_NAME
+                			return ( GIT_BRANCH == 'master')
+                       		    }
+                 	}
+		    steps {
+		    	 script {
+             		 	  def pom = readMavenPom file: 'pom.xml'
+                		  echo pom.version
+ 		                  nexusArtifactUploader(
+                  		      nexusVersion: 'nexus3',
+                        	      protocol: 'http',
+                        	      nexusUrl: 'http://54.202.138.206:8081/nexus',
+                        	      groupId: 'com.jcg.maven',
+                        	      **version: "${pom.version}",**
+                        	     repository: 'releases',
+                        	     credentialsId: 'admin',
+                        	artifacts: [
+                            	[artifactId: 'com.jcg.maven',
+                            	file: 'com.example-' + pom.version + '.jar',
+                            	type: 'jar']
+                        	])
+                               }
+		        }
+	    }
+	    
        stage ('deploy development')
         {
             when {
