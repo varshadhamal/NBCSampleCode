@@ -68,6 +68,7 @@ pipeline {
 		    	 script {
              		 	  def pom = readMavenPom file: 'pom.xml'
                 		  echo pom.version
+				 echo env.BUILD_DIR
 			          dir(env.BUILD_DIR/target)
 				 {
 				  nexusArtifactUploader(
