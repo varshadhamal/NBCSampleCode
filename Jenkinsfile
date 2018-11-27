@@ -72,7 +72,7 @@ pipeline {
     					nexusVersion: 'nexus3',
 	    				protocol: 'http',
     					nexusUrl: 'http://34.208.184.67:8081/nexus',
-    					groupId: 'com.jcg.mavene',
+    					groupId: 'com.jcg.maven',
     					version: '1.0',
 					repository: 'Samplerepo',
    					credentialsId: 'admin',
