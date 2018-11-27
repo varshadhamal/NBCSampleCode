@@ -73,7 +73,7 @@ pipeline {
                         	      protocol: 'http',
                         	      nexusUrl: 'http://54.202.138.206:8081/nexus',
                         	      groupId: 'com.jcg.maven',
-                        	      **version: "${pom.version}",**
+                        	      version: "${pom.version}",
                         	     repository: 'releases',
                         	     credentialsId: 'admin',
                         	artifacts: [
