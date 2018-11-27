@@ -85,7 +85,7 @@ pipeline {
                                }
 		        }
 	    }
-	    
+	    }
        stage ('deploy development')
         {
             when {
