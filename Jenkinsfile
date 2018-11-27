@@ -80,7 +80,7 @@ pipeline {
     					artifacts: [
         					[artifactId: pom.artifactId,
          					 classifier: '',
-        					 file: pom.name + '-' + pom.version,
+        					 file: pom.name + '-' + pom.version + '.jar',
        						 type: 'jar']
     						   ])
 		           }
