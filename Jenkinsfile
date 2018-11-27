@@ -68,6 +68,7 @@ pipeline {
 		    	 script {
              		 	  def pom = readMavenPom file: 'pom.xml'
                 		  echo pom.version
+				 sh "cd target"
  		                  nexusArtifactUploader(
     					nexusVersion: 'nexus3',
 	    				protocol: 'http',
