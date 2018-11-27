@@ -79,7 +79,7 @@ pipeline {
     					artifacts: [
         					[artifactId: pom.artifactId,
          					 classifier: '',
-        					 file: 'MavenHelloWorldProject-' + pom.version + '.jar',
+        					 file: 'target/MavenHelloWorldProject-' + pom.version + '.jar',
        						 type: 'jar']
     						   ])
 		           }
