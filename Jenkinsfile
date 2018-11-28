@@ -72,7 +72,7 @@ pipeline {
 			          dir("${env.WORKSPACE}" + "/" +"target")
 				 {
 				  nexusArtifactUploader(
-    					nexusVersion: 'nexus3',
+    					nexusVersion: 'nexus2',
 	    				protocol: 'http',
     					nexusUrl: '34.208.184.67:8081/nexus/content',
     					groupId: 'com.jcg.maven',
