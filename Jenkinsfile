@@ -74,10 +74,10 @@ pipeline {
 				  nexusArtifactUploader(
     					nexusVersion: 'nexus3',
 	    				protocol: 'http',
-    					nexusUrl: '34.208.184.67:8081/nexus',
+    					nexusUrl: '34.208.184.67:8081/nexus/content',
     					groupId: 'com.jcg.maven',
     					version: '0.0.1-SNAPSHOT',
-					repository: 'maven-snapshots',
+					repositories: 'maven-snapshots',
    					credentialsId: 'b19ea1d1-f9b5-48df-99df-0a04ceac429b',
     					artifacts: [
         					[artifactId: pom.artifactId,
