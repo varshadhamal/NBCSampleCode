@@ -69,7 +69,7 @@ pipeline {
              		 	  def pom = readMavenPom file: 'pom.xml'
                 		  echo pom.version
 				  echo "${env.WORKSPACE}" + "/" +"target"
-			          dir(env.BUILD_DIR/target)
+			          dir("${env.WORKSPACE}" + "/" +"target")
 				 {
 				  nexusArtifactUploader(
     					nexusVersion: 'nexus3',
