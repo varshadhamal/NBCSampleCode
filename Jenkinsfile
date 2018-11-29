@@ -69,6 +69,8 @@ pipeline {
              		 	  def pom = readMavenPom file: 'pom.xml'
                 		  echo pom.version
 				  echo "${env.WORKSPACE}" + "/" +"target"
+				  def now = new Date()
+                                  println now.format("yyMMdd.HHmm", TimeZone.getTimeZone('UTC'))
 			          dir("${env.WORKSPACE}" + "/" +"target")
 				 {
 				  nexusArtifactUploader(
