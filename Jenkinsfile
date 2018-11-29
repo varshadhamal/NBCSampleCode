@@ -72,11 +72,11 @@ pipeline {
 				  def now = new Date()
                                   def currenttime= now.format("yyMMddHHmm", TimeZone.getTimeZone('UTC')) 
 				  def newfilename = "MavenHelloWorldProject" +  currenttime + '.jar'
-				  
+			  	  
 				  dir("${env.WORKSPACE}" + "/" +"target")
 				  {
-				  sh "mv MavenHelloWorldProject-1.0.jar newfilename"	 
-				  nexusArtifactUploader(
+			          File.rename "MavenHelloWorldProject-1.0.jar", "MavenHelloWorldProjct-${currenttime}-.jar"	  	 
+				  nexusArtifactUploader(MavenHelloWorldProject-1.0.jar, , ,
     					nexusVersion: 'nexus2',
 	    				protocol: 'http',
     					nexusUrl: '34.208.184.67:8081/nexus',
@@ -87,7 +87,7 @@ pipeline {
     					artifacts: [
         					[artifactId: pom.artifactId,
          					 classifier: '',
-        					 file: pom.name + '-' + now.format("yyMMddHHmm", TimeZone.getTimeZone('UTC')) + '.jar',
+						 file: pom.name + '-' + ${currenttime} + '.jar',
        						 type: 'jar']
     						   ])
 				 }
@@ -135,7 +135,7 @@ pipeline {
                     script {
 	                def DockerImageconfigFileId = 'nbcsampleconfig' 
 	                configFileProvider([configFile(fileId: DockerImageconfigFileId, variable: 'DOCKERIMAGE')]) { 
-                    def value = readJSON file: env.DOCKERIMAGE
+                        def value = readJSON file: env.DOCKERIMAGE
 					def region = value.region
 					def service = value.service
                     def prodenv = value.prodenv    
