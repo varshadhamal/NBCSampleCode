@@ -70,7 +70,7 @@ pipeline {
                 		  echo pom.version
 				  echo "${env.WORKSPACE}" + "/" +"target"
 				  def now = new Date()
-                                  println now.format("yyMMdd.HHmm", TimeZone.getTimeZone('UTC'))
+                                  println now.format("yyMMddHHmm", TimeZone.getTimeZone('UTC'))
 			          dir("${env.WORKSPACE}" + "/" +"target")
 				 {
 				  nexusArtifactUploader(
@@ -84,7 +84,7 @@ pipeline {
     					artifacts: [
         					[artifactId: pom.artifactId,
          					 classifier: '',
-        					 file: pom.name + '-' + pom.version + '.jar',
+        					 file: pom.name + '-' + now.format("yyMMddHHmm", TimeZone.getTimeZone('UTC')) + '.jar',
        						 type: 'jar']
     						   ])
 				 }
