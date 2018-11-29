@@ -70,9 +70,12 @@ pipeline {
                 		  echo pom.version
 				  echo "${env.WORKSPACE}" + "/" +"target"
 				  def now = new Date()
-                                  println now.format("yyMMddHHmm", TimeZone.getTimeZone('UTC'))
-			          dir("${env.WORKSPACE}" + "/" +"target")
-				 {
+                                  def currenttime= now.format("yyMMddHHmm", TimeZone.getTimeZone('UTC')) 
+				  def newfilename = "MavenHelloWorldProject" +  currenttime + '.jar'
+				  
+				  dir("${env.WORKSPACE}" + "/" +"target")
+				  {
+				  sh "mv MavenHelloWorldProject-1.0.jar newfilename"	 
 				  nexusArtifactUploader(
     					nexusVersion: 'nexus2',
 	    				protocol: 'http',
