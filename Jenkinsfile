@@ -76,7 +76,7 @@ pipeline {
 				  dir("${env.WORKSPACE}" + "/" +"target")
 				  {
 			          File.rename "MavenHelloWorldProject-1.0.jar", "MavenHelloWorldProjct-${currenttime}-.jar"	  	 
-				  nexusArtifactUploader(MavenHelloWorldProject-1.0.jar, , ,
+				  nexusArtifactUploader(
     					nexusVersion: 'nexus2',
 	    				protocol: 'http',
     					nexusUrl: '34.208.184.67:8081/nexus',
