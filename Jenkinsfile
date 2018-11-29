@@ -76,8 +76,8 @@ pipeline {
 	    				protocol: 'http',
     					nexusUrl: '34.208.184.67:8081/nexus',
     					groupId: 'com.jcg.maven',
-    					version: '0.0.1-SNAPSHOT',
-					repository: 'samplesnapshot',
+    					version: pom.version,
+					repository: 'samplerepo',
    					credentialsId: 'b19ea1d1-f9b5-48df-99df-0a04ceac429b',
     					artifacts: [
         					[artifactId: pom.artifactId,
